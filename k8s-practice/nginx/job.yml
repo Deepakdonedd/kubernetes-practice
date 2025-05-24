@@ -1,0 +1,19 @@
+kind: Job
+apiVersion: batch/v1
+metadata:
+  name: demo-job
+  namespace: nginx
+spec:
+  completions: 1 #i want to run job one time
+  parallelism: 1 #i want to run one job parrlelly
+  template:
+    metadata:
+      name: demo-job-pod
+      labels:
+        app: batch-task
+    spec:
+      containers:
+        - name: batch-container
+          image: busybox:latest
+          command: ["sh", "-c", "echo Hello from the job! && sleep 10"]
+      restartPolicy: Never
