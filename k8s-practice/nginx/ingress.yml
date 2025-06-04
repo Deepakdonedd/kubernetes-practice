@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-notes-ingress
+  namespace: nginx
+  anotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+  - http:
+      paths:
+      - pathType: Prefix  # Use Prefix to match all paths under the specified path
+        path: /nginx
+        backend:
+          service:
+            name: nginx-service  # Name of the service to route traffic to
+            port: 
+              number: 80  # Port on which the nginx service is exposed
+      - pathType: Prefix
+        path: /
+        backend:
+          service:
+            name: notes-app-service  # Name of the notes app service
+            port:
+              number: 8000  # Port on which the notes app service is exposed
